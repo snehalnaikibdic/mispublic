@@ -1,0 +1,514 @@
+<html>
+ <head>
+  <title>
+   Dashboard
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   select {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+   }
+   select option {
+    white-space: normal;
+   }
+  </style>
+  <script>
+  function updateTableFields() {
+    const selectedOption = document.getElementById('dropdown').value;
+    const tableHead = document.getElementById('table-head');
+    const tableBody = document.getElementById('table-body');
+
+    switch (selectedOption) {
+      case 'Entity registered - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Entity ID</th>
+            <th class="py-2 px-4 border-b">Entity Code</th>
+            <th class="py-2 px-4 border-b">Entity Name</th>
+            <th class="py-2 px-4 border-b">Created on</th>
+            <th class="py-2 px-4 border-b">Created by</th>
+            <th class="py-2 px-4 border-b">Authorised by</th>
+            <th class="py-2 px-4 border-b">GSTIN</th>
+            <th class="py-2 px-4 border-b">PAN</th>
+            <th class="py-2 px-4 border-b">Active Status</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'GSTIN wise Entity Registered':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">GSTIN</th>
+            <th class="py-2 px-4 border-b">Entity Name</th>
+            <th class="py-2 px-4 border-b">Entity Code</th>
+            <th class="py-2 px-4 border-b">Entity ID</th>
+            <th class="py-2 px-4 border-b">Created on</th>
+            <th class="py-2 px-4 border-b">Created by</th>
+            <th class="py-2 px-4 border-b">Authorised by</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Entity ID with Identifiers - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Date of entry</th>
+            <th class="py-2 px-4 border-b">Entity Code</th>
+            <th class="py-2 px-4 border-b">Entity ID</th>
+            <th class="py-2 px-4 border-b">Entity Name</th>
+            <th class="py-2 px-4 border-b">Identifier Type</th>
+            <th class="py-2 px-4 border-b">Identifier ID no</th>
+            <th class="py-2 px-4 border-b">Verified flag</th>
+            <th class="py-2 px-4 border-b">Active Status</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Entity IDs having multiple GSTIN':
+        tableHead.innerHTML = `
+          <tr>
+          <th class="py-2 px-4 border-b">Date of Entry</th>
+          <th class="py-2 px-4 border-b">Entity Code</th>
+          <th class="py-2 px-4 border-b">Entity ID</th>
+          <th class="py-2 px-4 border-b">Entity Name</th>
+          <th class="py-2 px-4 border-b">GST</th>
+          <th class="py-2 px-4 border-b">Verified Flag</th>
+          <th class="py-2 px-4 border-b">Active Status</th>
+          <th class="py-2 px-4 border-b">GSTIN Count</th>
+          <th class="py-2 px-4 border-b">Created on</th>
+          </tr>
+
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Entity IDs without GSTIN':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Date of entry</th>
+            <th class="py-2 px-4 border-b">Entity Code</th>
+            <th class="py-2 px-4 border-b">Entity ID</th>
+            <th class="py-2 px-4 border-b">Entity Name</th>
+            <th class="py-2 px-4 border-b">Identifier Type</th>
+            <th class="py-2 px-4 border-b">Identifier ID no</th>
+            <th class="py-2 px-4 border-b">Verified flag</th>
+            <th class="py-2 px-4 border-b">Active Status</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Entity IDs without PAN':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Date of entry</th>
+            <th class="py-2 px-4 border-b">Entity Code</th>
+            <th class="py-2 px-4 border-b">Entity ID</th>
+            <th class="py-2 px-4 border-b">Entity Name</th>
+            <th class="py-2 px-4 border-b">Identifier Type</th>
+            <th class="py-2 px-4 border-b">Identifier ID no</th>
+            <th class="py-2 px-4 border-b">Verified flag</th>
+            <th class="py-2 px-4 border-b">Active Status</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Invoices registered - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Invoice No</th>
+            <th class="py-2 px-4 border-b">Invoice Date</th>
+            <th class="py-2 px-4 border-b">Invoice Amount</th>
+            <th class="py-2 px-4 border-b">Invoice Due Date</th>
+            <th class="py-2 px-4 border-b">Ledger ID</th>
+            <th class="py-2 px-4 border-b">Present Invoice Status</th>
+            <th class="py-2 px-4 border-b">P/F</th>
+            <th class="py-2 px-4 border-b">Buyer GST</th>
+            <th class="py-2 px-4 border-b">Buyer Name</th>
+            <th class="py-2 px-4 border-b">Seller GST</th>
+            <th class="py-2 px-4 border-b">Seller Name</th>
+            <th class="py-2 px-4 border-b">Created On</th>
+            <th class="py-2 px-4 border-b">Created By</th>
+            <th class="py-2 px-4 border-b">Authorised By</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Ledger funded - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Ledger ID</th>
+            <th class="py-2 px-4 border-b">Ledger Amount</th>
+            <th class="py-2 px-4 border-b">Ledger Status = F</th>
+            <th class="py-2 px-4 border-b">Funding Type = P/F</th>
+            <th class="py-2 px-4 border-b">Funded Amount</th>
+            <th class="py-2 px-4 border-b">Date Created</th>
+            <th class="py-2 px-4 border-b">Date of Funding</th>
+            <th class="py-2 px-4 border-b">Funded By</th>
+            <th class="py-2 px-4 border-b">Authorised By</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Invoices funded - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Ledger ID</th>
+            <th class="py-2 px-4 border-b">Ledger Amount</th>
+            <th class="py-2 px-4 border-b">Ledger Status = F</th>
+            <th class="py-2 px-4 border-b">Funding Type = P/F</th>
+            <th class="py-2 px-4 border-b">Invoice No</th>
+            <th class="py-2 px-4 border-b">Invoice Date</th>
+            <th class="py-2 px-4 border-b">Invoice Amount</th>
+            <th class="py-2 px-4 border-b">Invoice Due Date</th>
+            <th class="py-2 px-4 border-b">Funding Type = P/F</th>
+            <th class="py-2 px-4 border-b">Funded Amount</th>
+            <th class="py-2 px-4 border-b">Date Created</th>
+            <th class="py-2 px-4 border-b">Date of Funding</th>
+            <th class="py-2 px-4 border-b">Funded By</th>
+            <th class="py-2 px-4 border-b">Auth By</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Invoices cancelled - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Ledger ID</th>
+            <th class="py-2 px-4 border-b">Ledger Amount</th>
+            <th class="py-2 px-4 border-b">Ledger Status = F</th>
+            <th class="py-2 px-4 border-b">Date Created</th>
+            <th class="py-2 px-4 border-b">Invoice No</th>
+            <th class="py-2 px-4 border-b">Invoice Date</th>
+            <th class="py-2 px-4 border-b">Invoice Amount</th>
+            <th class="py-2 px-4 border-b">Invoice Due Date</th>
+            <th class="py-2 px-4 border-b">Date of Funding</th>
+            <th class="py-2 px-4 border-b">Funding Type = P/F</th>
+            <th class="py-2 px-4 border-b">Funded Amount</th>
+            <th class="py-2 px-4 border-b">Reason for Cancellation</th>
+            <th class="py-2 px-4 border-b">Date of Cancellation</th>
+            <th class="py-2 px-4 border-b">Initiated By</th>
+            <th class="py-2 px-4 border-b">Auth By</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Invoices Disbursed - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Ledger ID</th>
+            <th class="py-2 px-4 border-b">Ledger Amount</th>
+            <th class="py-2 px-4 border-b">Ledger Status = F</th>
+            <th class="py-2 px-4 border-b">Invoice No</th>
+            <th class="py-2 px-4 border-b">Invoice Date</th>
+            <th class="py-2 px-4 border-b">Invoice Amount</th>
+            <th class="py-2 px-4 border-b">Invoice Due Date</th>
+            <th class="py-2 px-4 border-b">Funding Type = P/F</th>
+            <th class="py-2 px-4 border-b">Funded Amount</th>
+            <th class="py-2 px-4 border-b">Date of Funding</th>
+            <th class="py-2 px-4 border-b">Disbursed Amount</th>
+            <th class="py-2 px-4 border-b">Disbursed Date</th>
+            <th class="py-2 px-4 border-b">Initiated By</th>
+            <th class="py-2 px-4 border-b">Auth By</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Ledger with partial funding - as on date':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Ledger ID</th>
+            <th class="py-2 px-4 border-b">Ledger Amount</th>
+            <th class="py-2 px-4 border-b">Ledger Status = P</th>
+            <th class="py-2 px-4 border-b">No of Invoices Registered</th>
+            <th class="py-2 px-4 border-b">Amount of Invoices Registered</th>
+            <th class="py-2 px-4 border-b">No of Invoices Funded</th>
+            <th class="py-2 px-4 border-b">Amount of Funded Amount</th>
+            <th class="py-2 px-4 border-b">No of Unfunded Invoices</th>
+            <th class="py-2 px-4 border-b">Amount of Unfunded Invoices</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Invoices repaid - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Ledger ID</th>
+            <th class="py-2 px-4 border-b">Ledger Amount</th>
+            <th class="py-2 px-4 border-b">Ledger Status = F</th>
+            <th class="py-2 px-4 border-b">Invoice No</th>
+            <th class="py-2 px-4 border-b">Invoice Date</th>
+            <th class="py-2 px-4 border-b">Invoice Amount</th>
+            <th class="py-2 px-4 border-b">Invoice Due Date</th>
+            <th class="py-2 px-4 border-b">Funding Type = P/F</th>
+            <th class="py-2 px-4 border-b">Funded Amount</th>
+            <th class="py-2 px-4 border-b">Date of Funding</th>
+            <th class="py-2 px-4 border-b">Disbursed Amount</th>
+            <th class="py-2 px-4 border-b">Disbursed Date</th>
+            <th class="py-2 px-4 border-b">Repayment Amount</th>
+            <th class="py-2 px-4 border-b">Outstanding Amount</th>
+            <th class="py-2 px-4 border-b">Initiated By</th>
+            <th class="py-2 px-4 border-b">Authorised By</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      case 'Funding requests rejected for reason - Already funded - from to':
+        tableHead.innerHTML = `
+          <tr>
+            <th class="py-2 px-4 border-b">Req ID</th>
+            <th class="py-2 px-4 border-b">Request Date</th>
+            <th class="py-2 px-4 border-b">Invoice No</th>
+            <th class="py-2 px-4 border-b">Invoice Amount</th>
+            <th class="py-2 px-4 border-b">Buyer GST</th>
+            <th class="py-2 px-4 border-b">Buyer Name</th>
+            <th class="py-2 px-4 border-b">Seller GST</th>
+            <th class="py-2 px-4 border-b">Seller Name</th>
+            <th class="py-2 px-4 border-b">Registered By Us On</th>
+          </tr>
+        `;
+        tableBody.innerHTML = ''; // Populate with data as per your requirement
+        break;
+
+      default:
+        tableHead.innerHTML = '';
+        tableBody.innerHTML = '';
+        break;
+    }
+  }
+  
+  function downloadTableData() {
+    const tableData = [];
+    const tableRows = document.getElementById('table-body').rows;
+    for (let i = 0; i < tableRows.length; i++) {
+      const row = [];
+      for (let j = 0; j < tableRows[i].cells.length; j++) {
+        row.push(tableRows[i].cells[j].textContent);
+      }
+      tableData.push(row.join(','));
+    }
+    const csvContent = tableData.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'table_data.csv';
+    link.click();
+  }
+</script>
+
+
+    
+ </head>
+ <body class="bg-gray-100 font-sans">
+  <div class="container mx-auto p-4">
+   <div class="flex items-center justify-between bg-white p-4 shadow-md">
+    <div class="flex items-center">
+     <img alt="Company Logo" class="h-12 w-12 mr-4" height="50" src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-LmQ09WWGIGwOeeA4ArnRw0x5/user-uJPET5fjNenSso8wCETWVNOp/img-SPoQrAV7X0uAfzsORUkEy4QN.png?st=2024-09-02T11%3A07%3A07Z&amp;se=2024-09-02T13%3A07%3A07Z&amp;sp=r&amp;sv=2024-08-04&amp;sr=b&amp;rscd=inline&amp;rsct=image/png&amp;skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&amp;sktid=a48cca56-e6da-484e-a814-9c849652bcb3&amp;skt=2024-09-02T00%3A16%3A04Z&amp;ske=2024-09-03T00%3A16%3A04Z&amp;sks=b&amp;skv=2024-08-04&amp;sig=UUW8bZDTyaf3rr6cTEUb6ID1Y3AZHYtePnhgq9u7TV4%3D" width="50"/>
+     <h1 class="text-xl font-bold">
+      Indian Banks' Digital Infrastructure Company
+     </h1>
+    </div>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded">
+     <i class="fas fa-user">
+     </i>
+     S
+    </button>
+   </div>
+   <div class="mt-4 bg-white p-4 shadow-md">
+    <div class="flex items-center space-x-4">
+     <label class="flex items-center space-x-2">
+      <input class="form-radio" name="date_range" type="radio"/>
+      <span>
+       All
+      </span>
+     </label>
+     <label class="flex items-center space-x-2">
+      <input class="form-radio" name="date_range" type="radio"/>
+      <span>
+       Date range
+      </span>
+     </label>
+     <input class="border rounded p-2" type="date" value="2024-02-08"/>
+     <input class="border rounded p-2" type="date" value="2024-02-09"/>
+     <select class="border rounded p-2" id="dropdown">
+      <option>
+       Entity registered - from to
+      </option>
+      <option>
+       GSTIN wise Entity Registered
+      </option>
+      <option>
+       Entity ID with Identifiers - from to
+      </option>
+      <option>
+       Entity IDs having multiple GSTIN
+      </option>
+      <option>
+       Entity IDs without GSTIN
+      </option>
+      <option>
+       Entity IDs without PAN
+      </option>
+      <option>
+       Invoices registered - from to
+      </option>
+      <option>
+       Ledger funded - from to
+      </option>
+      <option>
+       Invoices funded - from to
+      </option>
+      <option>
+       Invoices cancelled - from to
+      </option>
+      <option>
+       Invoices Disbursed - from to
+      </option>
+      <option>
+       Ledger with partial funding - as on date
+      </option>
+      <option>
+       Invoices repaid - from to
+      </option>
+      <option>
+       Funding requests rejected for reason - Already funded - from to
+      </option>
+     </select>
+     <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="updateTableFields()">
+      Apply
+     </button>
+     <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="downloadTableData()">
+      Download
+     </button>
+    </div>
+   </div>
+   <div class="mt-4 bg-white p-4 shadow-md">
+    <div class="overflow-x-auto mt-4">
+     <table class="min-w-full bg-white">
+      <thead id="table-head">
+       <tr>
+        <th class="py-2 px-4 border-b">
+         Entity ID
+        </th>
+        <th class="py-2 px-4 border-b">
+         Entity Code
+        </th>
+        <th class="py-2 px-4 border-b">
+         Entity Name
+        </th>
+        <th class="py-2 px-4 border-b">
+         Created on
+        </th>
+        <th class="py-2 px-4 border-b">
+         Created by
+        </th>
+        <th class="py-2 px-4 border-b">
+         Authorised by
+        </th>
+        <th class="py-2 px-4 border-b">
+         GSTIN
+        </th>
+        <th class="py-2 px-4 border-b">
+         PAN
+        </th>
+        <th class="py-2 px-4 border-b">
+         Active Status
+        </th>
+       </tr>
+      </thead>
+      <tbody id="table-body">
+       <tr>
+        <td class="py-2 px-4 border-b">
+         001
+        </td>
+        <td class="py-2 px-4 border-b">
+         0077
+        </td>
+        <td class="py-2 px-4 border-b">
+         Akbar Fari...
+        </td>
+        <td class="py-2 px-4 border-b">
+         2024-02-08
+        </td>
+        <td class="py-2 px-4 border-b">
+         John Doe
+        </td>
+        <td class="py-2 px-4 border-b">
+         Jane Smith
+        </td>
+        <td class="py-2 px-4 border-b">
+         27AAEPM1234A1Z5
+        </td>
+        <td class="py-2 px-4 border-b">
+         AAEPM1234A
+        </td>
+        <td class="py-2 px-4 border-b">
+         Active
+        </td>
+       </tr>
+       <tr>
+        <td class="py-2 px-4 border-b">
+         002
+        </td>
+        <td class="py-2 px-4 border-b">
+         0078
+        </td>
+        <td class="py-2 px-4 border-b">
+         Akbar Shai...
+        </td>
+        <td class="py-2 px-4 border-b">
+         2024-02-09
+        </td>
+        <td class="py-2 px-4 border-b">
+         Alice Brown
+        </td>
+        <td class="py-2 px-4 border-b">
+         Bob White
+        </td>
+        <td class="py-2 px-4 border-b">
+         27AAEPM1234A1Z6
+        </td>
+        <td class="py-2 px-4 border-b">
+         AAEPM1234B
+        </td>
+        <td class="py-2 px-4 border-b">
+         Inactive
+        </td>
+       </tr>
+       <tr>
+        <td class="py-2 px-4 border-b">
+         003
+        </td>
+        <td class="py-2 px-4 border-b">
+         0079
+        </td>
+        <td class="py-2 px-4 border-b">
+         Billmart
+        </td>
+        <td class="py-2 px-4 border-b">
+         2024-02-10
+        </td>
+        <td class="py-2 px-4 border-b">
+         Charlie Green
+        </td>
+        <td class="py-2 px-4 border-b">
+         David Black
+        </td>
+        <td class="py-2 px-4 border-b">
+         27AAEPM
